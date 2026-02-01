@@ -1,61 +1,67 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ถามอะไรหน่อยนะ... ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+    
     <style>
-       body { 
-    background: linear-gradient(135deg, #ffebee 0%, #ffffff 100%); 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: center; 
-    height: 100vh; 
-    margin: 0; 
-    font-family: 'Itim', cursive; 
-    overflow: hidden; 
-}
+        body { 
+            /* พื้นหลัง Gradient */
+            background: linear-gradient(135deg, #ffebee 0%, #ffffff 100%); 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            height: 100vh; 
+            margin: 0; 
+            font-family: 'Itim', cursive; 
+            overflow: hidden; 
+            touch-action: none;
+        }
 
+        /* ตกแต่งกรอบรูปคู่ */
         .photo-container {
-            width: 150px; height: 150px;
+            width: 180px; height: 180px;
             border-radius: 50%;
-            border: 5px solid white;
-            box-shadow: 0 4px 15px rgba(211, 47, 47, 0.3);
+            border: 8px solid white;
+            box-shadow: 0 10px 25px rgba(211, 47, 47, 0.2);
             overflow: hidden;
             margin-bottom: 20px;
-            z-index: 1;
+            z-index: 10;
         }
         .photo-container img {
             width: 100%; height: 100%; object-fit: cover;
         }
 
-        h1 { color: #d32f2f; text-align: center; margin-bottom: 30px; font-size: 1.5rem; z-index: 1; }
+        h1 { color: #d32f2f; text-align: center; margin-bottom: 30px; font-size: 1.8rem; z-index: 10; padding: 0 20px; }
 
         .btn-group { 
             position: relative; width: 100%; height: 250px; 
             display: flex; justify-content: center; align-items: center; 
+            z-index: 10;
         }
 
         button { 
-            padding: 15px 30px; font-size: 1.2rem; border-radius: 50px; border: none; 
+            padding: 15px 35px; font-size: 1.3rem; border-radius: 50px; border: none; 
             font-weight: bold; cursor: pointer; position: absolute;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             -webkit-tap-highlight-color: transparent;
+            font-family: 'Itim', cursive;
         }
 
         #yesBtn { 
-            background-color: #ff4081; color: white; z-index: 10;
+            background-color: #ff4081; color: white; z-index: 11;
             left: 50%; transform: translateX(-110%);
             outline: 4px dashed #ff4081; outline-offset: 4px;
             animation: rotate-border 2s infinite linear;
         }
 
         @keyframes rotate-border {
-            0% { outline-offset: 4px; }
-            50% { outline-offset: 8px; }
-            100% { outline-offset: 4px; }
+            0% { outline-offset: 4px; transform: translateX(-110%) scale(1); }
+            50% { outline-offset: 10px; transform: translateX(-110%) scale(1.05); }
+            100% { outline-offset: 4px; transform: translateX(-110%) scale(1); }
         }
 
         #noBtn { 
@@ -64,28 +70,30 @@
             transition: all 0.2s ease-out;
         }
 
-        #timerText { color: #d32f2f; font-weight: bold; margin-top: 20px; }
-    </style>
-    .bg-heart {
-    position: fixed;
-    font-size: 25px;
-    z-index: -1; 
-    opacity: 0.5;
-    animation: floatUp 5s linear infinite;
-    bottom: -10%;
-}
+        #timerText { color: #d32f2f; font-weight: bold; margin-top: 20px; font-size: 1.2rem; z-index: 10; }
 
-@keyframes floatUp {
-    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-    20% { opacity: 0.6; }
-    100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
-}
+        /* --- CSS ของหัวใจลอย --- */
+        .bg-heart {
+            position: fixed;
+            font-size: 25px;
+            z-index: 1; 
+            opacity: 0.5;
+            animation: floatUp 5s linear infinite;
+            bottom: -10%;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.6; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
 </head>
 <body>
 
-   <div class="photo-container">
-    <img src="couple.jpg" alt="Couple Photo" id="coupleImg">
-</div>
+    <div class="photo-container">
+        <img src="couple.jpg" alt="Couple Photo" id="coupleImg">
+    </div>
 
     <h1>naynay will you be my valentine kub? ❤️</h1>
     
@@ -97,17 +105,18 @@
     <div id="timerText">จะหมดเวลาแล้วนะ!</div>
 
     <script>
-setInterval(() => {
-    const heart = document.createElement('div');
-    heart.classList.add('bg-heart');
-    // คุณสามารถเปลี่ยนเป็นอิโมจิอื่นๆ ที่คุณชอบได้ เช่น 🌸, ✨, 🧸
-    heart.innerHTML = '❤️'; 
-    heart.style.left = Math.random() * 100 + 'vw';
-    heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
-    document.body.appendChild(heart);
-    
-    setTimeout(() => { heart.remove(); }, 5000);
-}, 400);
+        // ระบบสร้างหัวใจลอย
+        setInterval(() => {
+            const heart = document.createElement('div');
+            heart.classList.add('bg-heart');
+            heart.innerHTML = '❤️'; 
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 5000);
+        }, 400);
+
+        // ระบบตัวเลขถอยหลัง
         let timeLeft = 10;
         const countdown = setInterval(function() {
             timeLeft--;
@@ -118,10 +127,11 @@ setInterval(() => {
             }
         }, 1000);
 
+        // ระบบปุ่มหนี
         function moveButton() {
             const noBtn = document.getElementById('noBtn');
             const area = document.getElementById('area');
-            const padding = 20;
+            const padding = 30;
             const rect = area.getBoundingClientRect();
             
             const maxX = rect.width - noBtn.offsetWidth - padding;
@@ -135,6 +145,7 @@ setInterval(() => {
             noBtn.style.top = randomY + 'px';
         }
 
+        // ระบบบังคับ Yes
         function forceYes() {
             const noBtn = document.getElementById('noBtn');
             const yesBtn = document.getElementById('yesBtn');
@@ -144,6 +155,7 @@ setInterval(() => {
             document.getElementById("timerText").innerText = "หมดเวลาปฏิเสธแล้ว!";
         }
 
+        // ระบบเมื่อกดตกลง
         function accepted() {
             alert("เย้! ตกลงแล้วนะ รักที่สุดเลย ❤️");
             window.location.href = "https://www.youtube.com/watch?v=NM4e606yFJg&list=RDoIv_Y2RPQ_A&index=2"; 
@@ -151,6 +163,3 @@ setInterval(() => {
     </script>
 </body>
 </html>
-
-
-
