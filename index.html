@@ -8,7 +8,6 @@
     
     <style>
         body { 
-            /* พื้นหลัง Gradient */
             background: linear-gradient(135deg, #ffebee 0%, #ffffff 100%); 
             display: flex; 
             flex-direction: column; 
@@ -21,23 +20,27 @@
             touch-action: none;
         }
 
-        /* ตกแต่งกรอบรูปคู่ */
         .photo-container {
             width: 180px; height: 180px;
             border-radius: 50%;
             border: 8px solid white;
             box-shadow: 0 10px 25px rgba(211, 47, 47, 0.2);
             overflow: hidden;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             z-index: 10;
         }
         .photo-container img {
             width: 100%; height: 100%; object-fit: cover;
         }
-<div style="text-align: center; margin-bottom: 10px;">
-    <img src="https://media.tenor.com/7S_m_p_v8_4AAAAC/cat-run.gif" width="100" alt="Running Cat">
-</div>
-        h1 { color: #d32f2f; text-align: center; margin-bottom: 30px; font-size: 1.8rem; z-index: 10; padding: 0 20px; }
+
+        /* ตกแต่งแมว */
+        .cat-running {
+            width: 100px;
+            margin-bottom: 10px;
+            z-index: 10;
+        }
+
+        h1 { color: #d32f2f; text-align: center; margin-bottom: 20px; font-size: 1.8rem; z-index: 10; padding: 0 20px; }
 
         .btn-group { 
             position: relative; width: 100%; height: 250px; 
@@ -74,7 +77,6 @@
 
         #timerText { color: #d32f2f; font-weight: bold; margin-top: 20px; font-size: 1.2rem; z-index: 10; }
 
-        /* --- CSS ของหัวใจลอย --- */
         .bg-heart {
             position: fixed;
             font-size: 25px;
@@ -96,46 +98,9 @@
     <div class="photo-container">
         <img src="image.jpg" alt="Couple Photo" id="coupleImg">
     </div>
-<div style="display:none">
-    <div id="player"></div>
-</div>
 
-<script>
-    // 1. โหลด YouTube IFrame API
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    <img src="https://media.tenor.com/7S_m_p_v8_4AAAAC/cat-run.gif" class="cat-running" alt="Running Cat">
 
-    var player;
-    function onYouTubeIframeAPIReady() {
-        player = new YT.Player('player', {
-            height: '0',
-            width: '0',
-            // ใส่ ID เพลงที่คุณต้องการ (ตัวอักษรหลัง v= ในลิงก์ YouTube)
-            videoId: 'NM4e606yFJg', 
-            playerVars: {
-                'autoplay': 1,
-                'loop': 1,
-                'playlist': 'NM4e606yFJg' // เพื่อให้วนซ้ำ
-            },
-            events: {
-                'onReady': onPlayerReady
-            }
-        });
-    }
-
-    function onPlayerReady(event) {
-        // เมื่อเลื่อนเมาส์หรือแตะจอครั้งแรก ให้เพลงเริ่มเล่น (เลี่ยงกฎ Autoplay)
-        document.body.addEventListener('click', function() {
-            event.target.playVideo();
-        }, { once: true });
-        
-        document.body.addEventListener('touchstart', function() {
-            event.target.playVideo();
-        }, { once: true });
-    }
-</script>
     <h1>paipai will you be my valentine kub? ❤️</h1>
     
     <div class="btn-group" id="area">
@@ -145,8 +110,42 @@
 
     <div id="timerText">จะหมดเวลาแล้วนะ!</div>
 
+    <div style="display:none">
+        <div id="player"></div>
+    </div>
+
     <script>
-        // ระบบสร้างหัวใจลอย
+        // 1. ระบบเพลง YouTube
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '0',
+                width: '0',
+                videoId: 'NM4e606yFJg', 
+                playerVars: {
+                    'autoplay': 1,
+                    'loop': 1,
+                    'playlist': 'NM4e606yFJg'
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            // คลิกหรือแตะครั้งแรกเพลงจะเล่น
+            const startMusic = () => { event.target.playVideo(); };
+            document.body.addEventListener('click', startMusic, { once: true });
+            document.body.addEventListener('touchstart', startMusic, { once: true });
+        }
+
+        // 2. ระบบหัวใจลอย
         setInterval(() => {
             const heart = document.createElement('div');
             heart.classList.add('bg-heart');
@@ -157,7 +156,7 @@
             setTimeout(() => { heart.remove(); }, 5000);
         }, 400);
 
-        // ระบบตัวเลขถอยหลัง
+        // 3. ระบบตัวเลขถอยหลัง
         let timeLeft = 10;
         const countdown = setInterval(function() {
             timeLeft--;
@@ -168,25 +167,22 @@
             }
         }, 1000);
 
-        // ระบบปุ่มหนี
+        // 4. ระบบปุ่มหนี
         function moveButton() {
             const noBtn = document.getElementById('noBtn');
             const area = document.getElementById('area');
             const padding = 30;
             const rect = area.getBoundingClientRect();
-            
             const maxX = rect.width - noBtn.offsetWidth - padding;
             const maxY = rect.height - noBtn.offsetHeight - padding;
-            
             const randomX = Math.floor(Math.random() * maxX);
             const randomY = Math.floor(Math.random() * maxY);
-            
             noBtn.style.transform = 'none';
             noBtn.style.left = randomX + 'px';
             noBtn.style.top = randomY + 'px';
         }
 
-        // ระบบบังคับ Yes
+        // 5. ระบบบังคับ Yes
         function forceYes() {
             const noBtn = document.getElementById('noBtn');
             const yesBtn = document.getElementById('yesBtn');
@@ -196,7 +192,6 @@
             document.getElementById("timerText").innerText = "หมดเวลาปฏิเสธแล้ว!";
         }
 
-        // ระบบเมื่อกดตกลง
         function accepted() {
             alert("เย้! ตกลงแล้วนะ รักที่สุดเลย ❤️");
             window.location.href = "https://youtu.be/RoY_ZoWe-eI?si=Ad5o9AfHXxTGeTzG"; 
@@ -204,6 +199,3 @@
     </script>
 </body>
 </html>
-
-
-
