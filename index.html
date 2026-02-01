@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ถามอะไรหน่อย...สุดหล่อ</title>
+    <style>
+        body { background-color: #ffebee; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; font-family: 'Tahoma', sans-serif; overflow: hidden; }
+        h1 { color: #d32f2f; margin-bottom: 30px; }
+        .btn-group { position: relative; width: 100%; height: 100px; display: flex; justify-content: center; gap: 20px; }
+        button { padding: 15px 30px; font-size: 1.2rem; border-radius: 10px; border: none; cursor: pointer; transition: 0.2s; }
+        #yesBtn { background-color: #4caf50; color: white; }
+        #noBtn { background-color: #f44336; color: white; position: absolute; }
+    </style>
+</head>
+<body>
+
+    <h1>ไผ่ตง คุณเป็นเกย์ใช่หรือไม่? ❤️</h1>
+    
+    <div class="btn-group">
+        <button id="yesBtn" onclick="accepted()">ใช่</button>
+        <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">ไม่ใช่ครับ</button>
+    </div>
+
+    <script>
+        function moveButton() {
+            const noBtn = document.getElementById('noBtn');
+            // สุ่มพิกัดใหม่ โดยหักลบขนาดปุ่มออกเพื่อไม่ให้หลุดขอบจอ
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        }
+
+        function accepted() {
+            alert("เย้! คุณคือนักขุดทอง! ❤️");
+            window.location.href = "https://www.youtube.com/watch?v=kqNrhzTnD44&list=RDkqNrhzTnD44&start_radio=1"; //
+        }
+    </script>
+</body>
+</html>
