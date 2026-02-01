@@ -9,193 +9,24 @@
     <style>
         body { 
             background: linear-gradient(135deg, #ffebee 0%, #ffffff 100%); 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            height: 100vh; 
-            margin: 0; 
-            font-family: 'Itim', cursive; 
-            overflow: hidden; 
-            touch-action: none;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            height: 100vh; margin: 0; font-family: 'Itim', cursive; overflow: hidden; touch-action: none;
         }
 
         .photo-container {
-            width: 180px; height: 180px;
-            border-radius: 50%;
-            border: 8px solid white;
-            box-shadow: 0 10px 25px rgba(211, 47, 47, 0.2);
-            overflow: hidden;
-            margin-bottom: 10px;
-            z-index: 10;
+            width: 180px; height: 180px; border-radius: 50%; border: 8px solid white;
+            box-shadow: 0 10px 25px rgba(211, 47, 47, 0.2); overflow: hidden; margin-bottom: 10px; z-index: 10;
         }
-        .photo-container img {
-            width: 100%; height: 100%; object-fit: cover;
-        }
+        .photo-container img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* ตกแต่งแมว */
-        .cat-running {
-            width: 100px;
-            margin-bottom: 10px;
-            z-index: 10;
+        /* ตกแต่งไฟล์ cat.gif ที่คุณอัปโหลด */
+        .cat-running { 
+            width: 120px; 
+            height: auto;
+            margin-bottom: 10px; 
+            z-index: 10; 
         }
 
         h1 { color: #d32f2f; text-align: center; margin-bottom: 20px; font-size: 1.8rem; z-index: 10; padding: 0 20px; }
 
-        .btn-group { 
-            position: relative; width: 100%; height: 250px; 
-            display: flex; justify-content: center; align-items: center; 
-            z-index: 10;
-        }
-
-        button { 
-            padding: 15px 35px; font-size: 1.3rem; border-radius: 50px; border: none; 
-            font-weight: bold; cursor: pointer; position: absolute;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            -webkit-tap-highlight-color: transparent;
-            font-family: 'Itim', cursive;
-        }
-
-        #yesBtn { 
-            background-color: #ff4081; color: white; z-index: 11;
-            left: 50%; transform: translateX(-110%);
-            outline: 4px dashed #ff4081; outline-offset: 4px;
-            animation: rotate-border 2s infinite linear;
-        }
-
-        @keyframes rotate-border {
-            0% { outline-offset: 4px; transform: translateX(-110%) scale(1); }
-            50% { outline-offset: 10px; transform: translateX(-110%) scale(1.05); }
-            100% { outline-offset: 4px; transform: translateX(-110%) scale(1); }
-        }
-
-        #noBtn { 
-            background-color: #9e9e9e; color: white; z-index: 5;
-            left: 50%; transform: translateX(10%);
-            transition: all 0.2s ease-out;
-        }
-
-        #timerText { color: #d32f2f; font-weight: bold; margin-top: 20px; font-size: 1.2rem; z-index: 10; }
-
-        .bg-heart {
-            position: fixed;
-            font-size: 25px;
-            z-index: 1; 
-            opacity: 0.5;
-            animation: floatUp 5s linear infinite;
-            bottom: -10%;
-        }
-
-        @keyframes floatUp {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            20% { opacity: 0.6; }
-            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="photo-container">
-        <img src="image.jpg" alt="Couple Photo" id="coupleImg">
-    </div>
-
-    <img src="https://media.tenor.com/7S_m_p_v8_4AAAAC/cat-run.gif" class="cat-running" alt="Running Cat">
-
-    <h1>paipai will you be my valentine kub? ❤️</h1>
-    
-    <div class="btn-group" id="area">
-        <button id="yesBtn" onclick="accepted()">Yes (<span id="count">10</span>)</button>
-        <button id="noBtn" onmouseover="moveButton()" ontouchstart="moveButton()">No</button>
-    </div>
-
-    <div id="timerText">จะหมดเวลาแล้วนะ!</div>
-
-    <div style="display:none">
-        <div id="player"></div>
-    </div>
-
-    <script>
-        // 1. ระบบเพลง YouTube
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-        var player;
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('player', {
-                height: '0',
-                width: '0',
-                videoId: 'NM4e606yFJg', 
-                playerVars: {
-                    'autoplay': 1,
-                    'loop': 1,
-                    'playlist': 'NM4e606yFJg'
-                },
-                events: {
-                    'onReady': onPlayerReady
-                }
-            });
-        }
-
-        function onPlayerReady(event) {
-            // คลิกหรือแตะครั้งแรกเพลงจะเล่น
-            const startMusic = () => { event.target.playVideo(); };
-            document.body.addEventListener('click', startMusic, { once: true });
-            document.body.addEventListener('touchstart', startMusic, { once: true });
-        }
-
-        // 2. ระบบหัวใจลอย
-        setInterval(() => {
-            const heart = document.createElement('div');
-            heart.classList.add('bg-heart');
-            heart.innerHTML = '❤️'; 
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            document.body.appendChild(heart);
-            setTimeout(() => { heart.remove(); }, 5000);
-        }, 400);
-
-        // 3. ระบบตัวเลขถอยหลัง
-        let timeLeft = 10;
-        const countdown = setInterval(function() {
-            timeLeft--;
-            document.getElementById("count").innerText = timeLeft;
-            if (timeLeft <= 0) {
-                clearInterval(countdown);
-                forceYes();
-            }
-        }, 1000);
-
-        // 4. ระบบปุ่มหนี
-        function moveButton() {
-            const noBtn = document.getElementById('noBtn');
-            const area = document.getElementById('area');
-            const padding = 30;
-            const rect = area.getBoundingClientRect();
-            const maxX = rect.width - noBtn.offsetWidth - padding;
-            const maxY = rect.height - noBtn.offsetHeight - padding;
-            const randomX = Math.floor(Math.random() * maxX);
-            const randomY = Math.floor(Math.random() * maxY);
-            noBtn.style.transform = 'none';
-            noBtn.style.left = randomX + 'px';
-            noBtn.style.top = randomY + 'px';
-        }
-
-        // 5. ระบบบังคับ Yes
-        function forceYes() {
-            const noBtn = document.getElementById('noBtn');
-            const yesBtn = document.getElementById('yesBtn');
-            noBtn.style.display = 'none';
-            yesBtn.style.transform = 'translateX(-50%) scale(1.5)';
-            yesBtn.style.left = '50%';
-            document.getElementById("timerText").innerText = "หมดเวลาปฏิเสธแล้ว!";
-        }
-
-        function accepted() {
-            alert("เย้! ตกลงแล้วนะ รักที่สุดเลย ❤️");
-            window.location.href = "https://youtu.be/RoY_ZoWe-eI?si=Ad5o9AfHXxTGeTzG"; 
-        }
-    </script>
-</body>
-</html>
+        .btn-group { position: relative; width:
