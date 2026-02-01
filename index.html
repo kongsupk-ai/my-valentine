@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
+    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ถามอะไรหน่อยนะ... ❤️</title>
     <style>
-        body { 
-            background-color: #ffebee; 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            height: 100vh; margin: 0; font-family: 'Tahoma', sans-serif; overflow: hidden; 
-            touch-action: none;
-        }
+       body { 
+    background: linear-gradient(135deg, #ffebee 0%, #ffffff 100%); 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    height: 100vh; 
+    margin: 0; 
+    font-family: 'Itim', cursive; 
+    overflow: hidden; 
+}
 
-        /* ส่วนของรูปภาพ */
         .photo-container {
             width: 150px; height: 150px;
             border-radius: 50%;
@@ -61,6 +66,20 @@
 
         #timerText { color: #d32f2f; font-weight: bold; margin-top: 20px; }
     </style>
+    .bg-heart {
+    position: fixed;
+    font-size: 25px;
+    z-index: -1; 
+    opacity: 0.5;
+    animation: floatUp 5s linear infinite;
+    bottom: -10%;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    20% { opacity: 0.6; }
+    100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+}
 </head>
 <body>
 
@@ -78,6 +97,17 @@
     <div id="timerText">จะหมดเวลาแล้วนะ!</div>
 
     <script>
+setInterval(() => {
+    const heart = document.createElement('div');
+    heart.classList.add('bg-heart');
+    // คุณสามารถเปลี่ยนเป็นอิโมจิอื่นๆ ที่คุณชอบได้ เช่น 🌸, ✨, 🧸
+    heart.innerHTML = '❤️'; 
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+    document.body.appendChild(heart);
+    
+    setTimeout(() => { heart.remove(); }, 5000);
+}, 400);
         let timeLeft = 10;
         const countdown = setInterval(function() {
             timeLeft--;
@@ -121,5 +151,6 @@
     </script>
 </body>
 </html>
+
 
 
